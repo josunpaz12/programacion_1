@@ -1,22 +1,22 @@
 #include "funciones.h"
 
-int sumar(int x,int y)
+int sumar(float x,float y)
 {
-    int resultado;
+    float resultado;
     resultado= x + y;
     return resultado;
 }
 
 
-int restar(int x,int y)
+int restar(float x,float y)
 {
-    int resultado;
+    float resultado;
     resultado= x - y;
     return resultado;
 }
 
 
-int dividir(int x,int y)
+int dividir(float x,float y)
 {
     float resultado;
     resultado= x / y;
@@ -25,9 +25,9 @@ int dividir(int x,int y)
 }
 
 
-int multiplicar(int x,int y)
+int multiplicar(float x,float y)
 {
-    int resultado;
+    float resultado;
     resultado= x * y;
     return resultado;
 }

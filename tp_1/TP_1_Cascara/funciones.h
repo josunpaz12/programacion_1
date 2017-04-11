@@ -1,10 +1,10 @@
 #ifndef FUNCIONES_H_INCLUDED
 #define FUNCIONES_H_INCLUDED
 
-int sumar(int x,int y);
-int restar(int x,int y);
-int dividir(int x,int y);
-int multiplicar(int x,int y);
+int sumar(float x,float y);
+int restar(float x,float y);
+int dividir(float x,float y);
+int multiplicar(float x,float y);
 double factorial(int);
 
 
