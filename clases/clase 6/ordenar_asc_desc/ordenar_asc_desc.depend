@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1491868460 source:e:\progamacion i\clase 6\ordenar_asc_desc\funcion.c
+	<stdio.h>
+	<stdlib.h>
+	"funcion.h"
+
+1491866144 e:\progamacion i\clase 6\ordenar_asc_desc\funcion.h
+
+1491867986 source:e:\progamacion i\clase 6\ordenar_asc_desc\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funcion.h"
+
