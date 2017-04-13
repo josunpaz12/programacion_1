@@ -47,7 +47,7 @@ int main()
                 break;
             case 4:
                 rta=restar(num1,num2);
-                if(rta!=0)
+                if(num2!=0)
                 {
                 printf("\nEl resultado de la resta es:%.2f\n",rta);
                 system("pause");
