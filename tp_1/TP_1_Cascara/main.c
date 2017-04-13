@@ -72,7 +72,7 @@ int main()
                 break;
             case 7:
                 fact=factorial(num1);
-                printf("\nEl factorial de %.2f es %.2f \n",num1,fact);
+                printf("\nEl factorial de %.0f es %.0f \n",num1,fact);
                 system("pause");
                 break;
             case 8:
@@ -100,7 +100,7 @@ int main()
 
                 num=num1;
                 fact=factorial(num1);
-                printf("\nEl factorial de %.2f es %.2f \n\n",num1,fact);
+                printf("\nEl factorial de %.0f es %.0f \n\n",num1,fact);
                 system("pause");
 
                 break;
