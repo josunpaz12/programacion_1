@@ -5,6 +5,7 @@ int main()
 {
     int i,j;
     int vec[TAM]={5,8,1,3,7};
+
     int aux;
     for (i=0;i<TAM-1;i++)
     {
@@ -16,11 +17,7 @@ int main()
                 vec[i]=vec[j];
                 vec[j]=aux;
             }
-
         }
-
-
-
     }
 
     printf("Vector ordenado de forma ascendente:\n\n");

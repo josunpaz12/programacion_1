@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1493347354 source:c:\users\josu\documents\github\programacion_1\tp_2\tp_2_cascara\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1493347311 c:\users\josu\documents\github\programacion_1\tp_2\tp_2_cascara\funciones.h
+
+1493348323 source:c:\users\josu\documents\github\programacion_1\tp_2\tp_2_cascara\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones.h"
+

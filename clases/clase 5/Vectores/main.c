@@ -119,6 +119,9 @@ int main()
 
 
 
+
+
+
     //Carga Secuencial
 
 
@@ -143,6 +146,14 @@ int main()
     return 0;
 }
 
+
+
+void ordenarPromedio(float promedios[],int edades[],int legajos[])
+{
+
+
+
+}
 
 /*do
     {

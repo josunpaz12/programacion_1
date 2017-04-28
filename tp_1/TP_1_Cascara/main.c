@@ -23,7 +23,7 @@ int main()
         printf("5- Calcular la division (A/B)\n");
         printf("6- Calcular la multiplicacion (A*B)\n");
         printf("7- Calcular el factorial (A!)\n");
-        printf("8- Calcular todas las operacione\n");
+        printf("8- Calcular todas las operaciones\n");
         printf("9- Salir\n");
 
         scanf("%d",&opcion);
@@ -58,6 +58,7 @@ int main()
                 if(num2==0)
                 {
                     printf("\nEl segundo operando no puede ser 0\n");
+                    system("pause");
                 }else
                 {
                 auxFloat=dividir(num1,num2);

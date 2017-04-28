@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1493078859 source:d:\josu\ej1\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+	<string.h>
+
+1493077490 d:\josu\ej1\funciones.h
+
+1493076797 source:d:\josu\ej1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1493076797 source:c:\users\josu\documents\github\programacion_1\clases\clase 9\ej1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1493077490 c:\users\josu\documents\github\programacion_1\clases\clase 9\ej1\funciones.h
+

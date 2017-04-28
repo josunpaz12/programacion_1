@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1492466870 source:c:\users\josu\documents\github\programacion_1\clases\clase 7\arrays\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

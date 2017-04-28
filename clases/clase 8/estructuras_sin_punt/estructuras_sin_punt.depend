@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1492817559 source:c:\users\josu\documents\github\programacion_1\clases\clase 8\estructuras_sin_punt\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1492817298 source:c:\users\josu\documents\github\programacion_1\clases\clase 8\estructuras_sin_punt\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1492817273 c:\users\josu\documents\github\programacion_1\clases\clase 8\estructuras_sin_punt\funciones.h
+

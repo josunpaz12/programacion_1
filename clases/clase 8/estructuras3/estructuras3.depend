@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1492820863 source:c:\users\josu\documents\github\programacion_1\clases\clase 7\estructuras3\funciones.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
+1492820530 c:\users\josu\documents\github\programacion_1\clases\clase 7\estructuras3\funciones.h
+
+1492820977 source:c:\users\josu\documents\github\programacion_1\clases\clase 7\estructuras3\main.c
+	<stdio.h>
+	<stdlib.h>
+	"funciones.h"
+
