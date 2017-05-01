@@ -10,6 +10,16 @@ typedef struct {
 
 }ePersona;
 
+typedef struct {
+
+    int menor18;
+    int entre18y35;
+    int mayor35;
+
+}eEdades;
+
+
+
 /**
  * Inicializa un campo de un array.
  * @param se pasa el array de estructuras del tipo ePersona.
@@ -75,6 +85,12 @@ void cargarDatosPersona (ePersona [],int);
  */
 int buscarPorDni(ePersona[], int,int);
 
-void borrarPersona(ePersona [], int,int);
+void borrarPersona(ePersona[],int);
+
+void cargaSecuencialDePersonas(ePersona[]);
+
+void ordenarAlfabeticamente(ePersona [], int );
+void contarPorEdad (ePersona[],eEdades[],int );
+void grafico(eEdades[]);
 
 #endif // FUNCIONES_H_INCLUDED

@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funciones.h"
-#define CANT 2
+#define CANT 20
 int main()
 {
     char seguir='s';
     int opcion=0,auxNum;
-    int index;
+    int index,dni;
     ePersona persona [CANT];
+    eEdades edades[1];
     inicializarArray(persona,CANT);
+    cargaSecuencialDePersonas(persona);
 
     while(seguir=='s')
     {
@@ -37,13 +39,26 @@ int main()
                 system("cls");
                 printf("\nBORRAR PERSONA:\n\nIngrese dni:");
                 scanf("%d",&auxNum);
-                borrarPersona( persona,auxNum,CANT);
+                dni=buscarPorDni(persona,auxNum,CANT);
+                if(dni==-1)
+                {printf("\n\n*El DNI ingresado no se encuentra en la base de datos.\n");
+                break;
+                }else
+                {
+                borrarPersona(persona,dni);
+                }
+                system("pause");
                 break;
 
             case 3:
+                ordenarAlfabeticamente(persona,CANT);
                 break;
 
             case 4:
+                system("cls");
+                contarPorEdad(persona,edades,CANT);
+                grafico(edades);
+                system("pause");
                 break;
 
             case 5:
