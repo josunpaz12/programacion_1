@@ -6,7 +6,8 @@
 int main()
 {
     char seguir='s';
-
+    int* totalPelis;
+    *totalPelis=0;
     FILE* path;
     EMovie* movies;
 
@@ -35,6 +36,7 @@ int main()
     switch(menu(1,4))
         {
             case 1:
+                cargarDatosEnMovie(movies);
                 break;
             case 2:
                 break;
