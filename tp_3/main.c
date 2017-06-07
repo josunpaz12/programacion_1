@@ -6,43 +6,27 @@
 int main()
 {
     char seguir='s';
-    int* totalPelis;
-    *totalPelis=0;
-    FILE* path;
-    EMovie* movies;
+    int largo[2]={1,1};
 
-    path = fopen("peliculas.dat","rb");
-    if(path == NULL)
-    {
-        path = fopen("peliculas.dat", "wb");
-    }
-
-    if(path!=NULL)
-    {
-        movies = newMovie();
-        if(movies!=NULL)
-        {
-            while(!feof(path))
-            {
-                fread(movies, sizeof(EMovie), 1, path);
-            }
-
-        }
-    }
+    eMovie* vectorMovies;
+    vectorMovies=newMovie();
 
     while(seguir=='s')
     {
 
-    switch(menu(1,4))
+    switch(menu(1,5))
         {
             case 1:
-                cargarDatosEnMovie(movies);
+                cargarDatosEnMovie(vectorMovies,largo);
                 break;
             case 2:
                 break;
             case 3:
                break;
             case 4:
+                listarMovies(vectorMovies,largo);
+                break;
+            case 5:
                 seguir = 'n';
                 break;
         }

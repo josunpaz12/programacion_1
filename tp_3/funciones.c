@@ -3,13 +3,12 @@
 #include <string.h>
 #include "funciones.h"
 
-EMovie* newMovie()
+eMovie* newMovie()
 {
-    EMovie* movie = NULL;
-    movie = malloc(sizeof(EMovie));
+    eMovie* movie = NULL;
+    movie = malloc(sizeof(eMovie));
     return movie;
 }
-
 
 int esNumerico(char str[])
 {
@@ -53,7 +52,7 @@ int menu (int minimo, int maximo)
     char dato[10];
     int opc;
     system("cls");
-    printf("1- Agregar pelicula\n2- Borrar pelicula\n3- Generar pagina web\n4- Salir\n");
+    printf("1- Agregar pelicula\n2- Borrar pelicula\n3- Generar pagina web\n4- Listar pelis\n5- Salir\n\nEleccion:");
     gets(dato);
     fflush(stdin);
 
@@ -72,10 +71,11 @@ int menu (int minimo, int maximo)
     return opc;
 }
 
-void cargarDatosEnMovie(EMovie* movie)
+void cargarDatosEnMovie(eMovie* movie,int largo[])
 {
     system("cls");
     fflush(stdin);
+    eMovie* auxMovie;
     char auxNombre[20];
     char auxGenero[20];
     char auxDescripcion[50];
@@ -84,7 +84,26 @@ void cargarDatosEnMovie(EMovie* movie)
     int auxDuracion;
     char auxPuntajeString[10];
     int auxPuntaje;
+    int auxLargo;
+    auxLargo=largo[0]-1;
     char rta;
+
+
+/*
+    if(auxLargo>0)
+    {
+    auxMovie = (eMovie*)realloc(movie,sizeof(eMovie)*(auxLargo+1));
+    printf("pasa por aqui");
+    if(auxMovie!=NULL)
+    {
+        movie=auxMovie;
+        printf("realoco bien");
+    }
+
+    }
+
+*/
+//ralloca solo :/
 
 
     printf("AGREGAR PELICULA.\n\n");
@@ -160,13 +179,15 @@ void cargarDatosEnMovie(EMovie* movie)
 
     if(rta=='s')
     {
-        strcpy(movie->titulo,auxNombre);
-        strcpy(movie->genero,auxGenero);
-        strcpy(movie->descripcion,auxDescripcion);
-        strcpy(movie->linkImagen,auxLinkImagen);
-        movie->puntaje=auxPuntaje;
-        movie->duracion=auxDuracion;
-        movie->estado=1;
+        strcpy(movie[auxLargo].titulo,auxNombre);
+        strcpy(movie[auxLargo].genero,auxGenero);
+        strcpy(movie[auxLargo].descripcion,auxDescripcion);
+        strcpy(movie[auxLargo].linkImagen,auxLinkImagen);
+        movie[auxLargo].puntaje=auxPuntaje;
+        movie[auxLargo].duracion=auxDuracion;
+        movie[auxLargo].estado=1;
+        largo[0]=largo[0]+1;
+
         printf("\n*La pelicula se cargo correctamente.\n\n");
         system("pause");
     }else{
@@ -176,5 +197,21 @@ void cargarDatosEnMovie(EMovie* movie)
     system("cls");
 
 }
+
+void listarMovies(eMovie* vectorMovies,int largo[])
+{
+    int auxLargo;
+    int i;
+    auxLargo=largo[0]+1;
+
+    printf("\nTITULOS:\n\n");
+    for(i=0;i<auxLargo;i++)
+    {
+        //if(vectorMovies[i].estado == 1)
+            printf("--> %s\n",vectorMovies[i].titulo);
+    }
+    system("pause");
+}
+
 
 
