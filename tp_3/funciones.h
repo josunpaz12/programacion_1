@@ -52,7 +52,9 @@ int esAlfaNumerico(char str[]);
  */
 int menu (int minimo, int maximo);
 
-void cargarDatosEnMovie(eMovie* movie,int largo[]);
+void cargarDatosDesdeArchivo(eMovie* movie,int*largo);
+
+void cargarDatosEnMovie(eMovie* movie,int* largo);
 
 /**
  *  Agrega una pelicula al archivo binario
