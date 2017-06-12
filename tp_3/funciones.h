@@ -2,13 +2,13 @@
 #define FUNCIONES_H_INCLUDED
 
 typedef struct{
-    char titulo[20];
+    char titulo[50];
     char genero[20];
-    char descripcion[50];
-    char linkImagen[50];
+    char descripcion[500];
+    char linkImagen[200];
     int puntaje;
     int duracion;
-    int estado;
+    int activo;
 
 }eMovie;
 
@@ -52,9 +52,10 @@ int esAlfaNumerico(char str[]);
  */
 int menu (int minimo, int maximo);
 
-void cargarDatosDesdeArchivo(eMovie* movie,int*largo);
+void cargarDatosDesdeArchivo(eMovie* vectorMovies,int* subIndice,int*largo);
+void guardarDatosEnArchivo(eMovie* vectorMovies,int* subIndice,int*largo);
 
-void cargarDatosEnMovie(eMovie* movie,int* largo);
+void cargarDatosEnMovie(eMovie* vectorMovies,int*subIndice,int* largo);
 
 /**
  *  Agrega una pelicula al archivo binario
@@ -77,6 +78,7 @@ int borrarPelicula(eMovie movie);
  */
 void generarPagina(eMovie lista[], char nombre[]);
 
-void listarMovies(eMovie* vectorMovies,int largo[]);
+void listarMovies(eMovie* vectorMovies,int* subIndice);
+
 
 #endif // FUNCIONES_H_INCLUDED

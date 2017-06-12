@@ -5,7 +5,7 @@
 
 eMovie* newMovie()
 {
-    return (eMovie*) malloc(sizeof(eMovie));
+    return (eMovie*) malloc(sizeof(eMovie)*2);
 
 }
 
@@ -70,42 +70,105 @@ int menu (int minimo, int maximo)
     return opc;
 }
 
-void cargarDatosDesdeArchivo(eMovie* movie,int*largo)
+void guardarDatosEnArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
+{
+    int i;
+    FILE* fArchive;
+
+    fArchive = fopen("archivo.dat","wb");
+    if(fArchive == NULL)
+    {
+        exit(1);
+    }
+
+    for(i=0;i<(*subIndice);i++)
+    {
+        if((vectorMovies + i)->activo==1)
+            fwrite((vectorMovies + i),sizeof(eMovie),1,fArchive);
+
+
+    }
+    fclose(fArchive);
+}
+
+/*
+void guardarDatosEnArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
 {
     FILE* fArchive;
-    int cantLeida;
-    fArchive=fopen("archivo.bin","rb");
+
+    fArchive=fopen("archivo.bin","wb");
+    if(fArchive!=NULL)
+    {
+
+        fwrite(vectorMovies,sizeof(eMovie),*subIndice,fArchive);
+
+        fclose(fArchive);
+    }
+}
+
+
+void cargarDatosDesdeArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
+{
+    FILE* fArchive;
+    eMovie* vectorMoviesAux;
+    int subIndiceAux = (*subIndice);
+    int largoAux = (*largo);
+    //int cantLeida;
+    //eMovie* vectorPelisAux;
+
+
+    fArchive=fopen("archivo.dat","rb");
 
         if(fArchive!=NULL)
         {
-            while(!feof(fArchive))
-            {
-
-                if(*largo>0)
-                    {
-                    movie = (eMovie*)realloc(movie,sizeof(eMovie)*(*largo+1));
-                    }
-
-                    cantLeida=fread(movie,sizeof(eMovie),1,fArchive);
-                    if(cantLeida==1)
-                        (*largo)++;
-            }
-
+        while(fread((void*)(vectorMovies + subIndiceAux),sizeof(eMovie),1,fArchive)==1)
+        {
+            subIndiceAux++;
+            largoAux++;
+            vectorMoviesAux = (eMovie*)realloc(vectorMovies,sizeof(eMovie)* largoAux);
+            if(vectorMoviesAux != NULL)
+                vectorMovies = vectorMoviesAux;
+        }
         fclose(fArchive);
         }
+}
+*/
 
+void cargarDatosDesdeArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
+{
+    //Carga del archivo
+    FILE* fArchive;
+    eMovie* vectorMoviesAux;
+    int subIndiceAux = (*subIndice);
+    int largoAux = (*largo);
+
+    //vectorMovies = (eMovie*)malloc(sizeof(eMovie)*largoAux);
+
+    fArchive = fopen("archivo.dat", "rb");
+
+    if(fArchive != NULL)
+    {
+        while(fread((void*)(vectorMovies + subIndiceAux),sizeof(eMovie),1,fArchive)==1)
+        {
+            subIndiceAux++;
+            largoAux++;
+            vectorMoviesAux = (eMovie*)realloc(vectorMovies,sizeof(eMovie)* largoAux);
+            if(vectorMoviesAux != NULL)
+                vectorMovies = vectorMoviesAux;
+        }
+        fclose(fArchive);
+    }
+    (*subIndice) = subIndiceAux;
+    (*largo) = largoAux;
 
 }
 
 
 
-
-
-void cargarDatosEnMovie(eMovie* movie,int*largo)
+void cargarDatosEnMovie(eMovie* vectorMovies,int* subIndice,int*largo)
 {
     system("cls");
     fflush(stdin);
-    //eMovie* auxMovie;
     char auxNombre[20];
     char auxGenero[20];
     char auxDescripcion[50];
@@ -115,7 +178,6 @@ void cargarDatosEnMovie(eMovie* movie,int*largo)
     char auxPuntajeString[10];
     int auxPuntaje;
     char rta;
-
 
 
     printf("AGREGAR PELICULA.\n\n");
@@ -191,53 +253,45 @@ void cargarDatosEnMovie(eMovie* movie,int*largo)
 
     if(rta=='s')
     {
-
-        if((*largo)>0)
-        {
-        movie = (eMovie*)realloc(movie,sizeof(eMovie)*(*largo+1));
-
-
-        if(movie==NULL)
-            {
-                printf("puntero a null");
-                //movie=auxMovie;
-               // printf("realloco2");
-            }
-
-
-        }
-
-
-        printf("cargo1");
-        strcpy(movie[(*largo)].titulo,auxNombre);
-        strcpy(movie[*largo].genero,auxGenero);
-        strcpy(movie[*largo].descripcion,auxDescripcion);
-        strcpy(movie[*largo].linkImagen,auxLinkImagen);
-        movie[*largo].puntaje=auxPuntaje;
-        movie[*largo].duracion=auxDuracion;
-        movie[*largo].estado=1;
-        printf("cargo2");
+        strcpy(vectorMovies[(*subIndice)].titulo,auxNombre);
+        strcpy(vectorMovies[*subIndice].genero,auxGenero);
+        strcpy(vectorMovies[*subIndice].descripcion,auxDescripcion);
+        strcpy(vectorMovies[*subIndice].linkImagen,auxLinkImagen);
+        vectorMovies[*subIndice].puntaje=auxPuntaje;
+        vectorMovies[*subIndice].duracion=auxDuracion;
+        vectorMovies[*subIndice].activo=1;
         (*largo)++;
-                        printf("largo= %d",*largo);
+        (*subIndice)++;
         printf("\n*La pelicula se cargo correctamente.\n\n");
         system("pause");
-    }else{
-    printf("\n*Se cancelo la carga.\n\n");
-    system("pause");
+    }else
+        {
+        printf("\n*Se cancelo la carga.\n\n");
+        system("pause");
+        }
+    fflush(stdin);
     }
-    system("cls");
 
-}
 
-void listarMovies(eMovie* vectorMovies,int* largo)
+
+
+void listarMovies(eMovie* vectorMovies,int* subIndice)
 {
     int i;
 
     printf("\nTITULOS:\n\n");
-    for(i=0;i<(*largo);i++)
+    for(i=0;i<(*subIndice);i++)
     {
-        //if(vectorMovies[i].estado == 1)
-            printf("--> %s\n",vectorMovies[i].titulo);
+       // if(vectorMovies[i].estado == 1)
+       //  {
+            printf("\n\n%d--> %s\n",i,vectorMovies[i].titulo);
+            printf("%d--> %s\n",i,vectorMovies[i].genero);
+            printf("%d--> %s\n",i,vectorMovies[i].descripcion);
+            printf("%d--> %s\n",i,vectorMovies[i].linkImagen);
+            printf("%d--> %d\n",i,vectorMovies[i].puntaje);
+            printf("%d--> %d\n\n",i,vectorMovies[i].duracion);
+        //}
+
     }
     system("pause");
 }
