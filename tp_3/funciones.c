@@ -5,7 +5,7 @@
 
 eMovie* newMovie()
 {
-    return (eMovie*) malloc(sizeof(eMovie)*2);
+    return (eMovie*) malloc(sizeof(eMovie));
 
 }
 
@@ -51,7 +51,7 @@ int menu (int minimo, int maximo)
     char dato[10];
     int opc;
     system("cls");
-    printf("1- Agregar pelicula\n2- Borrar pelicula\n3- Generar pagina web\n4- Listar pelis\n5- Salir\n\nEleccion:");
+    printf("1- Agregar pelicula\n2- Borrar pelicula\n3- Generar pagina web\n4- Salir\n\nEleccion:");
     gets(dato);
     fflush(stdin);
 
@@ -69,100 +69,6 @@ int menu (int minimo, int maximo)
     }
     return opc;
 }
-
-void guardarDatosEnArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
-{
-    int i;
-    FILE* fArchive;
-
-    fArchive = fopen("archivo.dat","wb");
-    if(fArchive == NULL)
-    {
-        exit(1);
-    }
-
-    for(i=0;i<(*subIndice);i++)
-    {
-        if((vectorMovies + i)->activo==1)
-            fwrite((vectorMovies + i),sizeof(eMovie),1,fArchive);
-
-
-    }
-    fclose(fArchive);
-}
-
-/*
-void guardarDatosEnArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
-{
-    FILE* fArchive;
-
-    fArchive=fopen("archivo.bin","wb");
-    if(fArchive!=NULL)
-    {
-
-        fwrite(vectorMovies,sizeof(eMovie),*subIndice,fArchive);
-
-        fclose(fArchive);
-    }
-}
-
-
-void cargarDatosDesdeArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
-{
-    FILE* fArchive;
-    eMovie* vectorMoviesAux;
-    int subIndiceAux = (*subIndice);
-    int largoAux = (*largo);
-    //int cantLeida;
-    //eMovie* vectorPelisAux;
-
-
-    fArchive=fopen("archivo.dat","rb");
-
-        if(fArchive!=NULL)
-        {
-        while(fread((void*)(vectorMovies + subIndiceAux),sizeof(eMovie),1,fArchive)==1)
-        {
-            subIndiceAux++;
-            largoAux++;
-            vectorMoviesAux = (eMovie*)realloc(vectorMovies,sizeof(eMovie)* largoAux);
-            if(vectorMoviesAux != NULL)
-                vectorMovies = vectorMoviesAux;
-        }
-        fclose(fArchive);
-        }
-}
-*/
-
-void cargarDatosDesdeArchivo(eMovie* vectorMovies,int* subIndice,int*largo)
-{
-    //Carga del archivo
-    FILE* fArchive;
-    eMovie* vectorMoviesAux;
-    int subIndiceAux = (*subIndice);
-    int largoAux = (*largo);
-
-    //vectorMovies = (eMovie*)malloc(sizeof(eMovie)*largoAux);
-
-    fArchive = fopen("archivo.dat", "rb");
-
-    if(fArchive != NULL)
-    {
-        while(fread((void*)(vectorMovies + subIndiceAux),sizeof(eMovie),1,fArchive)==1)
-        {
-            subIndiceAux++;
-            largoAux++;
-            vectorMoviesAux = (eMovie*)realloc(vectorMovies,sizeof(eMovie)* largoAux);
-            if(vectorMoviesAux != NULL)
-                vectorMovies = vectorMoviesAux;
-        }
-        fclose(fArchive);
-    }
-    (*subIndice) = subIndiceAux;
-    (*largo) = largoAux;
-
-}
-
 
 
 void cargarDatosEnMovie(eMovie* vectorMovies,int* subIndice,int*largo)
@@ -206,7 +112,7 @@ void cargarDatosEnMovie(eMovie* vectorMovies,int* subIndice,int*largo)
     printf("\nIngrese breve descripcion:");
     gets(auxDescripcion);
     fflush(stdin);
-    while(!esSoloLetras(auxDescripcion))
+    while(!esAlfaNumerico(auxDescripcion))
     {
         printf("\n*La descripcion ingresada no es valida, por favor reingrese(recuerde ingresar solo letras:");
         gets(auxDescripcion);
@@ -259,7 +165,7 @@ void cargarDatosEnMovie(eMovie* vectorMovies,int* subIndice,int*largo)
         strcpy(vectorMovies[*subIndice].linkImagen,auxLinkImagen);
         vectorMovies[*subIndice].puntaje=auxPuntaje;
         vectorMovies[*subIndice].duracion=auxDuracion;
-        vectorMovies[*subIndice].activo=1;
+        vectorMovies[*subIndice].estado=1;
         (*largo)++;
         (*subIndice)++;
         printf("\n*La pelicula se cargo correctamente.\n\n");
@@ -270,31 +176,194 @@ void cargarDatosEnMovie(eMovie* vectorMovies,int* subIndice,int*largo)
         system("pause");
         }
     fflush(stdin);
-    }
-
-
-
-
-void listarMovies(eMovie* vectorMovies,int* subIndice)
-{
-    int i;
-
-    printf("\nTITULOS:\n\n");
-    for(i=0;i<(*subIndice);i++)
-    {
-       // if(vectorMovies[i].estado == 1)
-       //  {
-            printf("\n\n%d--> %s\n",i,vectorMovies[i].titulo);
-            printf("%d--> %s\n",i,vectorMovies[i].genero);
-            printf("%d--> %s\n",i,vectorMovies[i].descripcion);
-            printf("%d--> %s\n",i,vectorMovies[i].linkImagen);
-            printf("%d--> %d\n",i,vectorMovies[i].puntaje);
-            printf("%d--> %d\n\n",i,vectorMovies[i].duracion);
-        //}
-
-    }
-    system("pause");
 }
 
 
 
+
+void listarMovies(eMovie* vectorMovies,int*largo)
+{
+    int i;
+    system("cls");
+    printf("\nTITULOS:\n");
+    for(i=0;i<(*largo-1);i++)
+    {
+        if(vectorMovies[i].estado == 1)
+         {
+            printf("\n\n%d--> %s\n",i,vectorMovies[i].titulo);
+        }
+
+    }
+}
+
+void guardarMoviesEnArchivo(eMovie* vectorMovies,int* largo)
+{
+    FILE* fArchivo;
+    fArchivo=fopen("archivo.bin","wb");
+
+    if(fArchivo!=NULL)
+    {
+        fwrite(largo,sizeof(int),1,fArchivo);
+        fwrite(vectorMovies,sizeof(eMovie),(*largo),fArchivo);
+        fclose(fArchivo);
+    }
+
+}
+
+eMovie* cargarDatosDesdeArchivo(eMovie* vectorMovies,int* largo)
+{
+    FILE* fArchivo;
+    int i=0;
+    fArchivo=fopen("archivo.bin","rb");
+
+    if(fArchivo!=NULL)
+    {
+        printf("largo vale %d",*largo);
+        fread(largo,sizeof(int),1,fArchivo);
+        vectorMovies=(eMovie*)realloc(vectorMovies,sizeof(eMovie)*(*largo));
+
+        while(!feof(fArchivo))
+        {
+            fread((vectorMovies+i),sizeof(eMovie),1,fArchivo);
+            i++;
+        }
+    fclose(fArchivo);
+    }
+    return vectorMovies;
+}
+
+void generarWeb(eMovie vectorMovies[],int* largo)
+{
+    int i;
+    char primerBloque[]={"<!DOCTYPE html>"};
+    char primerBloque2[]={"<html lang='en'>"};
+    char primerBloque3[]={"<head>"};
+    char primerBloque4[]={"    <meta charset='utf-8'>"};
+    char primerBloque5[]={"    <meta http-equiv='X-UA-Compatible' content='IE=edge'>"};
+    char primerBloque6[]={"    <meta name='viewport' content='width=device-width, initial-scale=1'>"};
+    char primerBloque7[]={"    <title>Pagina WEB peliculas</title>"};
+    char primerBloque8[]={"    <link href='css/bootstrap.min.css' rel='stylesheet'>"};
+    char primerBloque9[]={"    <link href='css/custom.css' rel='stylesheet'>"};
+    char primerBloque10[]={"</head>"};
+    char primerBloque11[]={"<body>"};
+    char primerBloque12[]={"    <div class='container'>"};
+
+    char segundoBloque[]={"<div class='row'>"};
+    char segundoBloque2[]={"<article class='col-md-4 article-intro'>"};
+    char segundoBloque3[]={"<a href='#'>"};
+    char segundoBloque4[]={"<img class='img-responsive img-rounded'  src='"};
+    char segundoBloque5[]={"' alt='Sin Imagen! "};
+    char segundoBloque6[]={"</a>"};
+    char segundoBloque7[]={"<h3>"};
+    char segundoBloque8[]={"<a href='#'>"};
+    char segundoBloque9[]={"</a>"};
+    char segundoBloque10[]={"</h3>"};
+    char segundoBloque11[]={"<ul>"};
+    char segundoBloque12[]={"<li>Genero:"};
+    char segundoBloque13[]={"</li>"};
+    char segundoBloque14[]={"<li>Puntaje:"};
+    char segundoBloque15[]={"</li>"};
+    char segundoBloque17[]={"<li>Duracion:"};
+    char segundoBloque18[]={"</ul>"};
+    char segundoBloque19[]={"</p>"};
+    char segundoBloque20[]={"<p>"};
+    char segundoBloque21[]={"</article>"};
+    char segundoBloque22[]={"</div>"};
+
+    char tercerBloque[]={"    </div>"};
+    char tercerBloque2[]={"    <script src='js/jquery-1.11.3.min.js'></script>"};
+    char tercerBloque3[]={"    <script src='js/bootstrap.min.js'></script>"};
+    char tercerBloque4[]={"	<script src='js/ie10-viewport-bug-workaround.js'></script>"};
+    char tercerBloque5[]={"	<script src='js/holder.min.js'></script>"};
+    char tercerBloque6[]={"</body>"};
+    char tercerBloque7[]={"</html>"};
+
+
+    FILE* fArchiveHTML;
+    fArchiveHTML = fopen("template/index.html","w");
+    if(fArchiveHTML!=NULL)
+    {
+
+		fprintf(fArchiveHTML,"%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",primerBloque,primerBloque2,primerBloque3,primerBloque4,primerBloque5,primerBloque6,primerBloque7,primerBloque8,primerBloque9,primerBloque10,primerBloque11,primerBloque12);
+
+
+		for(i=0;i<(*largo);i++)
+        {
+            if(vectorMovies[i].estado==1)
+            {
+				fprintf(fArchiveHTML,"%s\n%s\n%s\n%s",segundoBloque,segundoBloque2,segundoBloque3,segundoBloque4);
+
+				fprintf(fArchiveHTML,"%s",vectorMovies[i].linkImagen);
+
+				fprintf(fArchiveHTML,"%s\n",segundoBloque5);
+
+				fprintf(fArchiveHTML,"%s'>",vectorMovies[i].titulo);
+
+				fprintf(fArchiveHTML,"%s\n%s\n%s",segundoBloque6,segundoBloque7,segundoBloque8);
+
+				fprintf(fArchiveHTML,"%s",vectorMovies[i].titulo);
+
+				fprintf(fArchiveHTML,"%s%s\n%s\n%s",segundoBloque9,segundoBloque10,segundoBloque11,segundoBloque12);
+
+				fprintf(fArchiveHTML,"%s",vectorMovies[i].genero);
+
+				fprintf(fArchiveHTML,"%s\n%s",segundoBloque13,segundoBloque14);
+
+				fprintf(fArchiveHTML,"%d",vectorMovies[i].puntaje);
+
+				fprintf(fArchiveHTML,"%s\n%s",segundoBloque15,segundoBloque17);
+
+				fprintf(fArchiveHTML,"%d",vectorMovies[i].duracion);
+
+				fprintf(fArchiveHTML,"%s\n%s\n%s",segundoBloque18,segundoBloque19,segundoBloque20);
+
+
+				fprintf(fArchiveHTML,"%s%s","Breve descripcion:",vectorMovies[i].descripcion);
+
+				fprintf(fArchiveHTML,"%s\n%s\n%s\n",segundoBloque20,segundoBloque21,segundoBloque22);
+
+            }
+        }
+
+		fprintf(fArchiveHTML,"%s\n%s\n%s\n%s\n%s\n%s\n%s\n",tercerBloque,tercerBloque2,tercerBloque3,tercerBloque4,tercerBloque5,tercerBloque6,tercerBloque7);
+
+
+        fclose(fArchiveHTML);
+        printf("\n*La pagina WEB fue generada con exito\n");
+        system("pause");
+    }
+    else
+        {
+        printf("\n*La pagina WEB no pudo ser generada\n");
+        system("pause");
+        }
+}
+
+
+void borrarPeli(eMovie* vectorMovies, int* largo)
+{
+    int i;
+    int flag=0;
+    char movieAux[30];
+    printf("\n\nIngrese el nombre de la pelicula a borrar:");
+    fflush(stdin);
+    gets(movieAux);
+    for(i=0;i<(*largo);i++)
+    {
+        if(strcmp(movieAux,vectorMovies[i].titulo)==0)
+        {
+            vectorMovies[i].estado=0;
+            printf("\n\n*La pelicula %s se borro correctamente.",vectorMovies[i].titulo);
+            system("pause");
+            flag=1;
+            break;
+        }
+    }
+    if(flag==0)
+    {
+    printf("\n\n*La pelicula %s no existe.",movieAux);
+    system("pause");
+    }
+
+
+}

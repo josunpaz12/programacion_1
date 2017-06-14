@@ -8,7 +8,7 @@ typedef struct{
     char linkImagen[200];
     int puntaje;
     int duracion;
-    int activo;
+    int estado;
 
 }eMovie;
 
@@ -52,8 +52,6 @@ int esAlfaNumerico(char str[]);
  */
 int menu (int minimo, int maximo);
 
-void cargarDatosDesdeArchivo(eMovie* vectorMovies,int* subIndice,int*largo);
-void guardarDatosEnArchivo(eMovie* vectorMovies,int* subIndice,int*largo);
 
 void cargarDatosEnMovie(eMovie* vectorMovies,int*subIndice,int* largo);
 
@@ -65,11 +63,10 @@ void cargarDatosEnMovie(eMovie* vectorMovies,int*subIndice,int* largo);
 int agregarPelicula(eMovie movie,FILE* path);
 
 /**
- *  Borra una pelicula del archivo binario
- *  @param movie la estructura a ser eliminada al archivo
- *  @return retorna 1 o 0 de acuerdo a si pudo eliminar la pelicula o no
+ *  Borra una pelicula de un vector de estructura eMovie
+ *  @param movie la estructura a ser eliminada del vector
  */
-int borrarPelicula(eMovie movie);
+void borrarPeli(eMovie* vectorMovies, int* largo);
 
 /**
  *  Genera un archivo html a partir de las peliculas cargadas en el archivo binario.
@@ -79,6 +76,10 @@ int borrarPelicula(eMovie movie);
 void generarPagina(eMovie lista[], char nombre[]);
 
 void listarMovies(eMovie* vectorMovies,int* subIndice);
+
+void guardarMoviesEnArchivo(eMovie* vectorMovies,int* largo);
+eMovie* cargarDatosDesdeArchivo(eMovie* vectorMovies,int* largo);
+void generarWeb(eMovie vectorMovies[], int* largo);
 
 
 #endif // FUNCIONES_H_INCLUDED

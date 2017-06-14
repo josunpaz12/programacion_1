@@ -11,28 +11,27 @@ int main()
     eMovie* vectorMovies;
     vectorMovies=newMovie();
 
-    cargarDatosDesdeArchivo(vectorMovies,&subIndice,&largo);
+    vectorMovies=cargarDatosDesdeArchivo(vectorMovies,&largo);
+    subIndice=largo-1;
 
     while(seguir=='s')
     {
-    switch(menu(1,5))
+    switch(menu(1,4))
         {
             case 1:
-                vectorMovies = (eMovie*)realloc(vectorMovies,sizeof(eMovie)*largo);
-                if(vectorMovies!=NULL)
-                    {
-                        cargarDatosEnMovie(vectorMovies,&subIndice,&largo);
-                    }
+                if(largo>1)
+                vectorMovies=(eMovie*)realloc(vectorMovies,sizeof(eMovie)*largo);
+                cargarDatosEnMovie(vectorMovies,&subIndice,&largo);
                 break;
             case 2:
-                guardarDatosEnArchivo(vectorMovies,&subIndice,&largo);
+                listarMovies(vectorMovies,&largo);
+                borrarPeli(vectorMovies,&largo);
                 break;
             case 3:
+                generarWeb(vectorMovies,&largo);
                break;
             case 4:
-                listarMovies(vectorMovies,&subIndice);
-                break;
-            case 5:
+                guardarMoviesEnArchivo(vectorMovies,&largo);
                 free(vectorMovies);
                 seguir = 'n';
                 break;
