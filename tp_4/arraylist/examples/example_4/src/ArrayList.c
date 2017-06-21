@@ -294,7 +294,15 @@ ArrayList* al_clone(ArrayList* this)
 int al_push(ArrayList* this, int index, void* pElement)
 {
     int returnAux = -1;
-
+    if(this != NULL && pElement != NULL && index >= 0 && index <= this->size)
+    {
+        if(expand(this, index)==0)
+        {
+            returnAux = 0;
+            al_set(this, index, pElement);
+            this->size++;
+        }
+    }
     return returnAux;
 }
 
@@ -397,9 +405,20 @@ int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 int resizeUp(ArrayList* this)
 {
     int returnAux = -1;
+    void* aux;
+    if(this!=NULL)
+    {
+        aux= realloc(this->pElements,sizeof(void *) * (this->reservedSize+AL_INCREMENT));
+        if (aux != NULL)
+        {
+            this->pElements = aux;
+            this->reservedSize = this->reservedSize + AL_INCREMENT;
+            returnAux = 0;
+        }
+
+    }
 
     return returnAux;
-
 }
 
 /** \brief  Expand an array list
@@ -411,7 +430,22 @@ int resizeUp(ArrayList* this)
 int expand(ArrayList* this,int index)
 {
     int returnAux = -1;
+    int resizeOk =0;
+    int i;
 
+    if(this != NULL && (index>=0 && index <= this->size))
+    {
+        if(this->size==this->reservedSize)
+            resizeOk=resizeUp(this);
+
+           for(i=this->size-1; i>=index; i--)
+           {
+               this->pElements[i+1]=this->pElements[i];
+           }
+
+        if(resizeOk==0)
+        returnAux=0;
+    }
     return returnAux;
 }
 
