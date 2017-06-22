@@ -325,7 +325,7 @@ int al_indexOf(ArrayList* this, void* pElement)
 
     if(this!=NULL && pElement!=NULL)
     {
-        for(i=0;i>this->size;i++)
+        for(i=0;i<this->size;i++)
         {
             if(this->pElements[i]==pElement)
             {
@@ -349,6 +349,10 @@ int al_indexOf(ArrayList* this, void* pElement)
 int al_isEmpty(ArrayList* this)
 {
     int returnAux = -1;
+    if(this!=NULL)
+    {
+
+    }
 
     return returnAux;
 }
