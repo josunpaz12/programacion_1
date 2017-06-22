@@ -296,7 +296,12 @@ int al_push(ArrayList* this, int index, void* pElement)
     int returnAux = -1;
     if(this != NULL && pElement != NULL && index >= 0 && index <= this->size)
     {
-        if(expand(this, index)==0)
+        if(index==this->size)
+        {
+            al_add(this,pElement);
+            returnAux=0;
+
+        }else if(expand(this, index)==0)
         {
             returnAux = 0;
             al_set(this, index, pElement);
@@ -315,7 +320,22 @@ int al_push(ArrayList* this, int index, void* pElement)
  */
 int al_indexOf(ArrayList* this, void* pElement)
 {
+    int i;
     int returnAux = -1;
+
+    if(this!=NULL && pElement!=NULL)
+    {
+        for(i=0;i>this->size;i++)
+        {
+            if(this->pElements[i]==pElement)
+            {
+                returnAux=i;
+                break;
+            }else{
+            returnAux=0;
+            }
+        }
+    }
 
     return returnAux;
 }
