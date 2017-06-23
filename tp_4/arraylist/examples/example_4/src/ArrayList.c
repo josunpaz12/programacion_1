@@ -225,7 +225,7 @@ int al_remove(ArrayList* this,int index)
         free(this->pElements[index]);
 
         if(index!=this->size)
-        //contract
+        contract(this,index);
 
         returnAux=0;
     }
@@ -351,6 +351,10 @@ int al_isEmpty(ArrayList* this)
     int returnAux = -1;
     if(this!=NULL)
     {
+        returnAux=1;
+
+        if(this->size>0)
+            returnAux=0;
 
     }
 
@@ -369,7 +373,11 @@ int al_isEmpty(ArrayList* this)
 void* al_pop(ArrayList* this,int index)
 {
     void* returnAux = NULL;
-
+    if(this!=NULL && index>=0 && index<this->size)
+    {
+        returnAux=this->pElements[index];
+        //contract
+    }
     return returnAux;
 }
 
@@ -384,7 +392,21 @@ void* al_pop(ArrayList* this,int index)
  */
 ArrayList* al_subList(ArrayList* this,int from,int to)
 {
-    void* returnAux = NULL;
+    int i;
+    void* element;
+    void* returnAux;
+    returnAux=al_newArrayList();
+    if(returnAux !=NULL && this !=NULL && from >= 0  && to <= this->size && from<to)
+    {
+            for(i=from;i<to;i++)
+            {
+                element=al_get(this,i);
+                al_add(returnAux,element);
+            }
+
+
+    }else{
+    returnAux = NULL;}
 
     return returnAux ;
 }
@@ -402,6 +424,29 @@ ArrayList* al_subList(ArrayList* this,int from,int to)
 int al_containsAll(ArrayList* this,ArrayList* this2)
 {
     int returnAux = -1;
+    int contador = 0 ;
+    void* element;
+    int i;
+    if(this!=NULL && this->pElements != NULL && this2!=NULL && this2->pElements != NULL)
+    {
+        returnAux=0;
+
+        for(i=0;i<this2->size;i++)
+        {
+            element = al_get(this2,i);
+
+            if(al_contains(this,element)==0)
+            {
+                contador++;
+                break;
+            }
+        }
+        if(contador==this2->size)
+        {
+            returnAux=1;
+        }
+
+    }
 
     return returnAux;
 }
@@ -415,8 +460,38 @@ int al_containsAll(ArrayList* this,ArrayList* this2)
  */
 int al_sort(ArrayList* this, int (*pFunc)(void* ,void*), int order)
 {
-    int returnAux = -1;
-
+    int returnAux = -1, i = 0, j = 0;
+    int length = al_len(this);
+    void * aux;
+    if(this != NULL && pFunc != NULL && (order == 1 || order == 0))
+    {
+        for (i = 0; i < length-1; i++)
+        {
+            for(j = i+1; j< length; j++)
+            {
+                if(order==1)
+                {
+                    if(pFunc(*(this->pElements+i),*(this->pElements+j))>0)
+                    {
+                        aux = this->pElements[i];
+                        this->pElements[i] = this->pElements[j];
+                        this->pElements[j] = aux;
+                        returnAux = 0;
+                    }
+                }
+                else
+                {
+                    if((order==0) && pFunc(*(this->pElements+i),*(this->pElements+j))<0)
+                    {
+                        aux = this->pElements[i];
+                        this->pElements[i] = this->pElements[j];
+                        this->pElements[j] = aux;
+                    }
+                }
+            }
+        }
+         returnAux = 0;
+    }
     return returnAux;
 }
 
@@ -482,6 +557,43 @@ int expand(ArrayList* this,int index)
 int contract(ArrayList* this,int index)
 {
     int returnAux = -1;
+    int i;
+    if(this != NULL && index >= 0 && index < this->size)
+    {
+        for(i=index;i<this->size;i++)
+        {
+            this->pElements[i]=this->pElements[i+1];
+        }
+        this->size=this->size-1;
+    }
+    if(this->size+15<this->reservedSize)
+        resizeDown(this);
+
+    return returnAux;
+}
+
+
+
+/** \brief Decrement the number of elements in pList in AL_INCREMENT elements.
+ * \param pList ArrayList* Pointer to arrayList
+ * \return int Return (-1) if Error [pList is NULL pointer or if can't allocate memory]
+ *                  - (0) if ok
+ */
+int resizeDown(ArrayList* this)
+{
+    int returnAux = -1;
+    void* aux;
+    if(this!=NULL)
+    {
+        aux= realloc(this->pElements,sizeof(void *) * (this->reservedSize-AL_INCREMENT));
+        if (aux != NULL)
+        {
+            this->pElements = aux;
+            this->reservedSize = this->reservedSize - AL_INCREMENT;
+            returnAux = 0;
+        }
+
+    }
 
     return returnAux;
 }

@@ -35,15 +35,15 @@ int main(void)
 //        startTesting(5);
 //        startTesting(6);
 //        startTesting(7);
-//falta contract        startTesting(8);
+        startTesting(8);
 //        startTesting(9);
 //        startTesting(10);
 //        startTesting(11);
-        startTesting(12);
+//        startTesting(12);
 //        startTesting(13);
-//        startTesting(14);
+//falta contract        startTesting(14);
 //        startTesting(15);
-//        startTesting(16);
+//falla reveer        startTesting(16);
 //        startTesting(17);
 
     return 0;
