@@ -222,11 +222,7 @@ int al_remove(ArrayList* this,int index)
     int returnAux = -1;
     if(this!=NULL && index >=0 && index <this->size)
     {
-        free(this->pElements[index]);
-
-        if(index!=this->size)
-        contract(this,index);
-
+        if(contract(this,index)==0);
         returnAux=0;
     }
 
@@ -245,7 +241,6 @@ int al_clear(ArrayList* this)
     int returnAux = -1;
     if(this!=NULL)
     {
-        //free(this->pElements);
         this->size=0;
         this->reservedSize=AL_INITIAL_VALUE;
         returnAux=0;
@@ -281,6 +276,7 @@ ArrayList* al_clone(ArrayList* this)
 
     return returnAux;
 }
+
 
 
 
@@ -376,10 +372,11 @@ void* al_pop(ArrayList* this,int index)
     if(this!=NULL && index>=0 && index<this->size)
     {
         returnAux=this->pElements[index];
-        //contract
+        contract(this,index);
     }
     return returnAux;
 }
+
 
 
 /** \brief Returns a new arrayList with a portion of pList between the specified
@@ -424,7 +421,6 @@ ArrayList* al_subList(ArrayList* this,int from,int to)
 int al_containsAll(ArrayList* this,ArrayList* this2)
 {
     int returnAux = -1;
-    int contador = 0 ;
     void* element;
     int i;
     if(this!=NULL && this->pElements != NULL && this2!=NULL && this2->pElements != NULL)
@@ -435,16 +431,15 @@ int al_containsAll(ArrayList* this,ArrayList* this2)
         {
             element = al_get(this2,i);
 
-            if(al_contains(this,element)==0)
+            if(al_contains(this,element)==1)
             {
-                contador++;
+                returnAux=1;
                 break;
-            }
+            }else{
+            returnAux=0;
+            break;}
         }
-        if(contador==this2->size)
-        {
-            returnAux=1;
-        }
+
 
     }
 
@@ -554,23 +549,27 @@ int expand(ArrayList* this,int index)
  * \return int Return (-1) if Error [pList is NULL pointer or invalid index]
  *                  - ( 0) if Ok
  */
+
 int contract(ArrayList* this,int index)
 {
     int returnAux = -1;
     int i;
-    if(this != NULL && index >= 0 && index < this->size)
+    if(this != NULL && index >= 0 && index <= this->size)
     {
-        for(i=index;i<this->size;i++)
+        for(i=index+1;i<=this->size;i++)
         {
-            this->pElements[i]=this->pElements[i+1];
+            this->pElements[i-1]=this->pElements[i];
         }
-        this->size=this->size-1;
-    }
-    if(this->size+15<this->reservedSize)
-        resizeDown(this);
 
+        this->size=this->size-1;
+        returnAux=0;
+
+      if((this->reservedSize-this->size)>AL_INCREMENT)
+       resizeDown(this);
+    }
     return returnAux;
 }
+
 
 
 
